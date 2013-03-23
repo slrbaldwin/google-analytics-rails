@@ -89,7 +89,7 @@ module GoogleAnalytics::Rails
       queue = GAQ.new
 
       # unshift => reverse order
-      events.unshift GA::Events::TrackPageview.new(options[:page])
+      events.push GA::Events::TrackPageview.new(options[:page]) unless events.any?{|e| e.class == GoogleAnalytics::Events::TrackPageview }
       # anonymize if needed before tracking the page view
       events.unshift GA::Events::AnonymizeIp.new if anonymize
       events.unshift GA::Events::SetDomainName.new(domain)
